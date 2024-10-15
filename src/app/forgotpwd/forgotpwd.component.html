@@ -1,0 +1,35 @@
+<div
+  class="form-container"
+  style="
+    background-color: var(--en-theme-color-background-surface-elevation-1);
+    width: 400px;
+    padding: 24px;
+  "
+>
+  <en-heading tagname="h1">Forgot Password</en-heading>
+  <form [formGroup]="resetPwd" (ngSubmit)="onSubmit()">
+    <en-text-field
+      ngDefaultControl
+      formControlName="password"
+      variant="secondary"
+      label="New Password"
+      type="password"
+      isRequired="true"
+    ></en-text-field>
+    <en-text-field
+      ngDefaultControl
+      formControlName="confirmPassword"
+      variant="secondary"
+      label="Confirm Password"
+      type="password"
+      isRequired="true"
+    ></en-text-field>
+    <div *ngIf="resetPwd.errors?.['mismatch']">
+      <small>Passwords do not match.</small>
+    </div>
+    <div style="margin-top: 8px">
+      <en-button type="submit">Reset Password</en-button>
+    </div>
+    <en-link data-testid="link" [routerLink]="['/login']" variant="xs">Login<en-icon-chevron-right></en-icon-chevron-right></en-link>
+  </form>
+</div>

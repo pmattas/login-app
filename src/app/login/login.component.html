@@ -1,0 +1,59 @@
+<div
+  class="form-container"
+  style="
+    background-color: var(--en-theme-color-background-surface-elevation-1);
+    width: 400px;
+    padding: 24px;
+  "
+>
+  <en-heading tagname="h1">Login</en-heading>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <en-text-field
+        ngDefaultControl
+        formControlName="email"
+        variant="secondary"
+        label="Email"
+        id="email"
+        type="email"
+        isRequired="true"
+        class="input"
+      ></en-text-field>
+      <div *ngIf="emailControl?.invalid && emailControl?.touched">
+        <small *ngIf="emailControl?.errors?.['required']">Email is required.</small>
+        <small *ngIf="emailControl?.errors?.['email']">Invalid email format.</small>
+      </div>
+      
+      <en-text-field
+        ngDefaultControl
+        formControlName="password"
+        variant="secondary"
+        label="Password"
+        id="password"
+        type="password"
+        isRequired="true"
+        class="input"
+      ></en-text-field>
+      <div *ngIf="passwordControl?.invalid && passwordControl?.touched">
+        <small *ngIf="passwordControl?.errors?.['required']">Password is required.</small>
+        <small *ngIf="passwordControl?.errors?.['minlength']">Password must be at least 6 characters long.</small>
+      </div>
+      
+      <en-button type="submit" style="width: 100%;">Login</en-button>
+      <div *ngIf="loginError"  style="display: flex;">
+        <small>{{ loginError }}</small>
+      </div>
+      
+      <div style="font-size: 12px">
+        New user?
+        <en-link data-testid="link" [routerLink]="['/signup']" variant="xs">
+          Sign up
+          <en-icon-chevron-right></en-icon-chevron-right>
+        </en-link>
+        <en-link data-testid="link" [routerLink]="['/security']" variant="xs" class="forgotpwd">
+          Forgot Password?
+          <en-icon-chevron-right></en-icon-chevron-right>
+        </en-link>
+      </div>
+      
+  </form>
+</div>
