@@ -8,7 +8,7 @@ import { ForgotpwdComponent } from './forgotpwd/forgotpwd.component';
 import { SecurityComponent } from './security/security.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent},
   { path: 'security', component: SecurityComponent},
