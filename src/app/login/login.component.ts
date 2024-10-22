@@ -39,6 +39,7 @@ export class LoginComponent {
       const user = storedData.find((user: any) => user.email === email);
 
       if (user) {
+        localStorage.setItem('currentUser', email);
         if (user.password === password) {
           console.log('Login successful');
           localStorage.setItem('isLoggedIn', 'true');
@@ -50,7 +51,6 @@ export class LoginComponent {
             })
           );
         } else {
-          localStorage.setItem('currentUser', email);
           console.log('currentUser', email);
           this.loginError = 'Wrong password';
           this.showForgotPasswordLink = true;
