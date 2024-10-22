@@ -1,6 +1,12 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl,
+} from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 
 @Component({
@@ -9,18 +15,18 @@ import { RouterModule, Router } from '@angular/router';
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LoginComponent {
   fb = inject(FormBuilder);
   loginForm: FormGroup;
-  loginError: string | null = null; 
-  showForgotPasswordLink: boolean = false; 
+  loginError: string | null = null;
+  showForgotPasswordLink: boolean = false;
 
   constructor(private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
     localStorage.setItem('isLoggedIn', 'false');
   }
@@ -36,8 +42,16 @@ export class LoginComponent {
         if (user.password === password) {
           console.log('Login successful');
           localStorage.setItem('isLoggedIn', 'true');
-          this.router.navigate(['/']);
+          window.dispatchEvent(
+            new CustomEvent('navigate-to', {
+              detail: {
+                path: '/',
+              },
+            })
+          );
         } else {
+          localStorage.setItem('currentUser', email);
+          console.log('currentUser', email);
           this.loginError = 'Wrong password';
           this.showForgotPasswordLink = true;
         }

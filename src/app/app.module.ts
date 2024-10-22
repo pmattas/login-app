@@ -13,11 +13,12 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ForgotpwdComponent } from './forgotpwd/forgotpwd.component';
 import { SecurityComponent } from './security/security.component';
+import { AuthGuardService } from './auth-guard.service';
 
 ModuleRegistry.registerModules([RowGroupingModule, SideBarModule]);
 
 @NgModule({
-  declarations: [AppComponent ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     CommonModule,
@@ -26,9 +27,9 @@ ModuleRegistry.registerModules([RowGroupingModule, SideBarModule]);
     LoginComponent,
     SignupComponent,
     ForgotpwdComponent,
-    SecurityComponent
+    SecurityComponent,
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

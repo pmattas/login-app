@@ -1,6 +1,11 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 
@@ -10,8 +15,7 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./security.component.scss'],
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
-
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SecurityComponent implements OnInit {
   securityForm: FormGroup;
@@ -25,27 +29,35 @@ export class SecurityComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const signupData = localStorage.getItem('signupData');
-    if (signupData) {
-      const parsedData = JSON.parse(signupData);
-      this.securityQuestion = parsedData.security;
-      console.log(this.securityQuestion)
+    const email = localStorage.getItem('currentUser');
+    const signupData = JSON.parse(localStorage.getItem('signupData') || '[]');
+
+    if (Array.isArray(signupData)) {
+      const user = signupData.find((user: any) => user.email === email);
+      if (user) {
+        this.securityQuestion = user.security;
+      } else {
+        this.errorMessage = 'User not found.';
+      }
     }
   }
 
   onSubmit(): void {
     const userInput = this.securityForm.get('securityAnswer')?.value;
-    console.log(userInput);
-    const signupData = localStorage.getItem('signupData');
-    if (signupData) {
-      const parsedData = JSON.parse(signupData);
-      const correctAnswer = parsedData.answer; 
+    const email = localStorage.getItem('currentUser');
+    const signupData = JSON.parse(localStorage.getItem('signupData') || '[]');
+    const user = signupData.find((user: any) => user.email === email);
+
+    if (user) {
+      const correctAnswer = user.answer;
       if (userInput === correctAnswer) {
-        localStorage.setItem('isLoggedIn','true');
+        localStorage.setItem('isLoggedIn', 'true');
         this.router.navigate(['/forgotpwd']);
       } else {
         this.errorMessage = 'Wrong answer. Please try again.';
       }
+    } else {
+      this.errorMessage = 'User not found.';
     }
   }
 }
